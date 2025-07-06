@@ -26,10 +26,11 @@ export class AuthService {
 
   async login(email: string, password: string) {
     const user = (await this.userModel.findOne({ where: { email } })) as User;
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    console.log(`User found: ${user ? user.email : 'No user found'}`); // Debugging line
+    if (!user || !user.password || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    const jwtSecret = this.configService.get('JWT_SECRET') as string | undefined;
+    const jwtSecret = this.configService.get<string>('JWT_SECRET');
     if (!jwtSecret) {
       throw new InternalServerErrorException('JWT secret is not defined');
     }
@@ -39,4 +40,3 @@ export class AuthService {
     return { token };
   }
 }
-

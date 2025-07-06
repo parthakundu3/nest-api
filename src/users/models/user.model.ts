@@ -1,6 +1,9 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
-@Table
+@Table({
+  tableName: 'users',
+  timestamps: true, // Let Sequelize manage createdAt and updatedAt
+})
 export class User extends Model<User> {
   @Column({
     type: DataType.INTEGER,
@@ -10,35 +13,21 @@ export class User extends Model<User> {
   declare id: number;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.STRING(50),
     allowNull: false,
     unique: true,
   })
-  email: string;
+  declare email: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  password: string;
+  declare password: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.STRING(25),
     allowNull: false,
   })
-  fullname: string;
-
-  @Column({
-    type: DataType.DATE,
-    allowNull: false,
-    defaultValue: DataType.NOW,
-  })
-  declare createdAt: Date;
-
-  @Column({
-    type: DataType.DATE,
-    allowNull: false,
-    defaultValue: DataType.NOW,
-  })
-  declare updatedAt: Date;
+  declare fullname: string;
 }
