@@ -30,4 +30,10 @@ export class User extends Model<User> {
     allowNull: false,
   })
   declare fullname: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  declare profileurl: string;
+
 }

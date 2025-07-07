@@ -19,9 +19,9 @@ export class AuthService {
     private configService: ConfigService,
   ) { }
 
-  async register(email: string, password: string, fullname: string) {
+  async register(email: string, password: string, fullname: string, profileurl?: string) {
     const hashed = await bcrypt.hash(password, 10);
-    return this.userModel.create({ email, password: hashed, fullname } as any);
+    return this.userModel.create({ email, password: hashed, fullname, profileurl } as any);
   }
 
   async login(email: string, password: string) {
@@ -34,9 +34,9 @@ export class AuthService {
     if (!jwtSecret) {
       throw new InternalServerErrorException('JWT secret is not defined');
     }
-    const token: string = sign({ sub: user.id }, jwtSecret, {
+    const token: string = sign({ sub: user.id, email: user.email }, jwtSecret, {
       expiresIn: '1h',
     });
-    return { token };
+    return { token, user: { id: user.id, email: user.email } as any };
   }
 }

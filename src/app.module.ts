@@ -5,6 +5,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './users/models/user.model'; // Adjust the import path as necessary
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';// Make sure to run: npm install @nestjs/config
+import { FileUploadModule } from './file-upload/file-upload.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AuthModule } from './auth/auth.module';// Make sure to run: npm install
       synchronize: true,
     }),
     AuthModule,
+    FileUploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
