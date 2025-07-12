@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,UseGuards, Req } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { VehiclesService } from './vehicles.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
@@ -7,12 +8,15 @@ import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 export class VehiclesController {
   constructor(private readonly vehiclesService: VehiclesService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() dto: CreateVehicleDto) {
-  console.log('Received DTO:', dto);
-  return this.vehiclesService.create(dto);
-}
+  async create(@Body() dto: CreateVehicleDto, @Req() req) {
+    const userId = req.user.userId; // Extracted from JWT payload via JwtStrategy
+    console.log('Received DTO:', dto);
+    console.log('Authenticated User ID:', userId);
 
+    return this.vehiclesService.create(dto, userId);
+  }
 
   @Get()
   findAll() {
