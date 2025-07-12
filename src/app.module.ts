@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module'; // Make sure to run: npm instal
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { VehiclesModule } from './vehicles/vehicles.module';
 import { Vehicle } from './vehicles/entities/vehicle.entity';
+import { BookingModule } from './booking/booking.module';
+import { SlotsModule } from './slots/slots.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { Vehicle } from './vehicles/entities/vehicle.entity';
     AuthModule,
     FileUploadModule,
     VehiclesModule,
+    BookingModule,
+    SlotsModule
   ],
   controllers: [AppController],
   providers: [AppService],
